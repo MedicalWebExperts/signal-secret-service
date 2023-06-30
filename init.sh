@@ -77,7 +77,7 @@ fi
 
 eval_export() {
     to_export="$@"
-    keys=$(for v in $to_export ; do echo $v | awk -F '=' '{print $1}' ; done)
+    keys=$(for v in "$to_export" ; do echo "$v" | awk -F '=' '{print $1}' ; done)
     echo $keys
     eval export $to_export
 }
@@ -103,7 +103,7 @@ if [ $chamber_result != 0 ]; then
 fi
 
 # We want to remove 'export' from the env output and also convert - into _ for env names
-to_secrets=$(echo $chamber_env | sed 's/export //g' | for e in $(cat -) ; do echo $e | awk '{ gsub("-", "_", $1) } 1' FS='=' OFS='='; done)
+to_secrets=$(echo "$chamber_env" | sed 's/export //g' | for e in "$(cat -)" ; do echo "$e" | awk '{ gsub("-", "_", $1) } 1' FS='=' OFS='='; done)
 eval_export $to_secrets
 
 # Perform overrides
